@@ -17,11 +17,11 @@ const Layout = (props: Props) => {
 
 	return (
 		<>
-			<Header />
+			{/* <Header /> */}
 			<ReactLenis root>
 				<Main>{children}</Main>
 			</ReactLenis>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	);
 };
