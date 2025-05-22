@@ -40,7 +40,6 @@ const Page = (props: Props) => {
         title={seoTitle || "Souvenir Studio"}
         description={seoDescription || ""}
       />
-      <Drawing />
       <Menu
         title={title}
         instagramHandle={instagramHandle}
@@ -49,6 +48,7 @@ const Page = (props: Props) => {
         informationSnippet={informationSnippet}
         moreInformation={moreInformation}
       />
+      <Drawing />
       <Projects data={images} />
     </PageWrapper>
   );

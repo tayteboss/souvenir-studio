@@ -114,7 +114,7 @@ export const GlobalStyles = createGlobalStyle`
 		color: #808080;
 		backdrop-filter: blur(20px);
 
-		transition: all var(--transition-speed-default) var(--transition-ease);
+		transition: all var(--transition-speed-default) linear;
 
 		&:hover {
 			background: rgba(255, 255, 255, 0.9);

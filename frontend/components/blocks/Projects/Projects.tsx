@@ -33,10 +33,10 @@ const ImageWrapper = styled(motion.div)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 80%;
-  max-height: 80%;
-  height: 80%;
-  width: 80%;
+  max-width: 70%;
+  max-height: 70%;
+  height: 70%;
+  width: 70%;
 `;
 
 type Props = {
@@ -45,10 +45,12 @@ type Props = {
 
 const Projects = (props: Props) => {
   const { data } = props;
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { scrollY } = useScroll();
   const [windowHeight, setWindowHeight] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
+
+  const { scrollY } = useScroll();
 
   const width = useTransform(
     scrollY,
