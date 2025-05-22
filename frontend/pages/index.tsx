@@ -1,28 +1,33 @@
 import styled from "styled-components";
 import { NextSeo } from "next-seo";
-import {
-  HomePageType,
-  SiteSettingsType,
-  TransitionsType,
-} from "../shared/types/types";
+import { HomePageType, TransitionsType } from "../shared/types/types";
 import { motion } from "framer-motion";
 import client from "../client";
-import {
-  homePageQueryString,
-  siteSettingsQueryString,
-} from "../lib/sanityQueries";
-import Miffy from "../components/blocks/Miffy";
+import { homePageQueryString } from "../lib/sanityQueries";
+import Projects from "../components/blocks/Projects";
+import Drawing from "../components/blocks/Drawing";
+import Menu from "../components/blocks/Menu";
 
 const PageWrapper = styled(motion.div)``;
 
 type Props = {
   data: HomePageType;
-  siteSettings: SiteSettingsType;
   pageTransitionVariants: TransitionsType;
 };
 
 const Page = (props: Props) => {
-  const { data, siteSettings, pageTransitionVariants } = props;
+  const { data, pageTransitionVariants } = props;
+  const {
+    seoTitle,
+    seoDescription,
+    title,
+    instagramHandle,
+    instagramUrl,
+    email,
+    informationSnippet,
+    moreInformation,
+    images,
+  } = data;
 
   return (
     <PageWrapper
@@ -31,16 +36,26 @@ const Page = (props: Props) => {
       animate="visible"
       exit="hidden"
     >
-      <NextSeo title={"Souvenir Studio — Coming Soon"} description={""} />
-      <Miffy />
+      <NextSeo
+        title={seoTitle || "Souvenir Studio"}
+        description={seoDescription || ""}
+      />
+      <Menu
+        title={title}
+        instagramHandle={instagramHandle}
+        instagramUrl={instagramUrl}
+        email={email}
+        informationSnippet={informationSnippet}
+        moreInformation={moreInformation}
+      />
+      <Drawing />
+      <Projects />
     </PageWrapper>
   );
 };
 
 export async function getStaticProps() {
-  // const siteSettings = await client.fetch(siteSettingsQueryString);
-  // const data = await client.fetch(homePageQueryString);
-  const data = false;
+  const data = await client.fetch(homePageQueryString);
 
   return {
     props: {

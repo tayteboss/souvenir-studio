@@ -25,30 +25,26 @@ export type TransitionsType = {
   };
 };
 
-export type ButtonType = {
-  url: string;
-  pageReference: {
-    _ref: string;
-  };
-  title: string;
-};
-
 export type SlugType = {
   current: string;
 };
 
-export type SiteSettingsType = {};
-
+export type ImageType = {
+  asset: {
+    url: string;
+    metadata: {
+      lqip: string;
+    };
+  };
+};
 export type HomePageType = {
   seoTitle: string;
   seoDescription: string;
-};
-
-export type WorkPageType = {
-  seoTitle: string;
-  seoDescription: string;
-};
-
-export type ProjectType = {
-  slug: SlugType;
+  title: string;
+  instagramHandle: string;
+  instagramUrl: string;
+  email: string;
+  informationSnippet: string;
+  moreInformation: string;
+  images: ImageType[];
 };

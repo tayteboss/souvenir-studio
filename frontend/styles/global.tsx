@@ -37,7 +37,7 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	html {
-		background: var(--colour-white);
+		background: #EBEBEB;
 		font-size: 16px;
 
 		&.no-scroll {
@@ -60,6 +60,7 @@ export const GlobalStyles = createGlobalStyle`
 	label,
 	body {
 		font-family: var(--font-default);
+		font-weight: bold;
 		color: var(--colour-black);
 		line-height: normal;
 	}
@@ -75,7 +76,13 @@ export const GlobalStyles = createGlobalStyle`
 
 	a {
 		text-decoration: underline;
-		color: var(--colour-black);
+		color: #808080;
+
+		transition: all var(--transition-speed-default) var(--transition-ease);
+
+		&:hover {
+			color: var(--colour-black);
+		}
 	}
 
 	button {
@@ -83,76 +90,35 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	h1,
-	.type-h1 {
-		font-size: ${pxToRem(48)};
-		line-height: ${pxToRem(48)};
-
-		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
-			line-height: ${pxToRem(38)};
-		}
-
-		@media ${theme.mediaBreakpoints.mobile} {
-			font-size: ${pxToRem(28)};
-			line-height: ${pxToRem(28)};
-		}
-	}
-
+	.type-h1,
 	h2,
-	.type-h2 {
-		font-size: ${pxToRem(48)};
-		line-height: ${pxToRem(48)};
-
-		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
-			line-height: ${pxToRem(38)};
-		}
-
-		@media ${theme.mediaBreakpoints.mobile} {
-			font-size: ${pxToRem(28)};
-			line-height: ${pxToRem(28)};
-		}
-	}
-
+	.type-h2,
 	h3,
-	.type-h3 {
-		font-size: ${pxToRem(48)};
-		line-height: ${pxToRem(28)};
-
-		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
-			line-height: ${pxToRem(38)};
-		}
-
-		@media ${theme.mediaBreakpoints.mobile} {
-			font-size: ${pxToRem(28)};
-			line-height: ${pxToRem(28)};
-		}
-	}
-
+	.type-h3,
 	h4,
-	.type-h4 {
-		font-size: ${pxToRem(48)};
-		line-height: ${pxToRem(28)};
-
-		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
-			line-height: ${pxToRem(38)};
-		}
-
-		@media ${theme.mediaBreakpoints.mobile} {
-			font-size: ${pxToRem(28)};
-			line-height: ${pxToRem(28)};
-		}
-	}
-
+	.type-h4,
 	p,
 	.type-p,
 	a,
 	button,
 	div {
-		font-size: ${pxToRem(16)};
-		line-height: ${pxToRem(16)};
+		font-size: ${pxToRem(12)};
+		line-height: ${pxToRem(14)};
+		font-weight: bold;
+	}
+
+	.cell {
+		width: ${pxToRem(330)};
+		padding: ${pxToRem(12)} ${pxToRem(16)};
+		background: rgba(255, 255, 255, 0.2);
+		color: #808080;
+		backdrop-filter: blur(20px);
+
+		transition: all var(--transition-speed-default) var(--transition-ease);
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.8);
+		}
 	}
 
 	mux-player {
