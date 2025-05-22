@@ -21,7 +21,9 @@ const TaglineCellWrapper = styled.div`
 
 const TitleWrapper = styled.div``;
 
-const Title = styled.div``;
+const Title = styled.div`
+  cursor: crosshair;
+`;
 
 const LinksWrapper = styled.div`
   display: flex;

@@ -6,6 +6,7 @@ const LogoCellWrapper = styled.div`
   border-top-left-radius: ${pxToRem(4)};
   border-top-right-radius: ${pxToRem(4)};
   pointer-events: all;
+  cursor: crosshair;
 
   &:hover {
     color: var(--colour-black);

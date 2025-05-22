@@ -110,14 +110,14 @@ export const GlobalStyles = createGlobalStyle`
 	.cell {
 		width: ${pxToRem(330)};
 		padding: ${pxToRem(12)} ${pxToRem(16)};
-		background: rgba(255, 255, 255, 0.2);
+		background: rgba(255, 255, 255, 0.5);
 		color: #808080;
 		backdrop-filter: blur(20px);
 
 		transition: all var(--transition-speed-default) var(--transition-ease);
 
 		&:hover {
-			background: rgba(255, 255, 255, 0.8);
+			background: rgba(255, 255, 255, 0.9);
 		}
 	}
 

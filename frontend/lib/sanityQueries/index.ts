@@ -40,6 +40,18 @@ export const siteSettingsQueryString = `
 export const homePageQueryString = `
 	*[_type == 'homePage'][0] {
 		...,
+		images[] {	
+			...,
+			asset-> {
+				url,
+				metadata {
+					lqip,
+					dimensions {
+						aspectRatio
+					}
+				},
+			}
+		}
 	}
 `;
 

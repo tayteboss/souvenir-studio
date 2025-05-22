@@ -19,7 +19,9 @@ const Inner = styled.div`
   align-items: center;
 `;
 
-const Snippet = styled(motion.div)``;
+const Snippet = styled(motion.div)`
+  cursor: crosshair;
+`;
 
 const MoreTrigger = styled(motion.button)``;
 

@@ -34,8 +34,12 @@ export type ImageType = {
     url: string;
     metadata: {
       lqip: string;
+      dimensions: {
+        aspectRatio: number;
+      };
     };
   };
+  alt: string;
 };
 export type HomePageType = {
   seoTitle: string;

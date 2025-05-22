@@ -10,7 +10,7 @@ const FooterCellWrapper = styled.div`
 const WorkTrigger = styled.button`
   padding: ${pxToRem(12)} ${pxToRem(16)};
   border-bottom-left-radius: ${pxToRem(4)};
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(20px);
   color: #808080;
   flex: 3;
@@ -18,7 +18,7 @@ const WorkTrigger = styled.button`
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     color: var(--colour-black);
   }
 `;
@@ -26,7 +26,7 @@ const WorkTrigger = styled.button`
 const StoreTrigger = styled.button`
   padding: ${pxToRem(12)} ${pxToRem(16)};
   border-bottom-right-radius: ${pxToRem(4)};
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(20px);
   color: #808080;
   flex: 6;
@@ -34,7 +34,7 @@ const StoreTrigger = styled.button`
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     color: var(--colour-black);
   }
 `;

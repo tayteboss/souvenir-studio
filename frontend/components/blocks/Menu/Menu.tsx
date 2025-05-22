@@ -14,7 +14,7 @@ const MenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 `;
 
