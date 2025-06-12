@@ -10,8 +10,9 @@ const MiffyWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 25px;
-  font-family: serif;
+  font-size: 16px;
+  font-weight: 400 !important;
+  font-family: serif !important;
 `;
 
 const Miffy = () => {

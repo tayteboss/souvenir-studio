@@ -7,6 +7,7 @@ import { homePageQueryString } from "../lib/sanityQueries";
 import Projects from "../components/blocks/Projects";
 import Drawing from "../components/blocks/Drawing";
 import Menu from "../components/blocks/Menu";
+import Miffy from "../components/blocks/Miffy";
 
 const PageWrapper = styled(motion.div)``;
 
@@ -40,7 +41,7 @@ const Page = (props: Props) => {
         title={seoTitle || "Souvenir Studio"}
         description={seoDescription || ""}
       />
-      <Menu
+      {/* <Menu
         title={title}
         instagramHandle={instagramHandle}
         instagramUrl={instagramUrl}
@@ -49,7 +50,8 @@ const Page = (props: Props) => {
         moreInformation={moreInformation}
       />
       <Drawing />
-      <Projects data={images} />
+      <Projects data={images} /> */}
+      <Miffy />
     </PageWrapper>
   );
 };
