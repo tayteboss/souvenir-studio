@@ -138,6 +138,7 @@ const Gallery = (props: Props) => {
                   alt={images[finalIndex].alt}
                   fill
                   style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px) 75vw, 60vw"
                 />
               )}
             </ImageInner>
