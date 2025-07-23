@@ -1,7 +1,6 @@
 import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
-import {muxInput} from 'sanity-plugin-mux-input'
 import {vercelDeployTool} from 'sanity-plugin-vercel-deploy'
 import {DocumentIcon} from '@sanity/icons'
 import {schemaTypes} from './schemas'
@@ -28,7 +27,6 @@ export default defineConfig({
       },
     }),
     visionTool(),
-    muxInput({mp4_support: 'standard', max_resolution_tier: '2160p'}),
     vercelDeployTool(),
   ],
 

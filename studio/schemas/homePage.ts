@@ -44,17 +44,37 @@ export default {
       description: 'Contact email address',
     },
     {
-      title: 'Information Snippet',
-      name: 'informationSnippet',
-      type: 'text',
-      rows: 2,
-      description: 'A short snippet of information about the business',
+      title: 'Phone',
+      name: 'phone',
+      type: 'string',
     },
     {
       title: 'More Information',
       name: 'moreInformation',
-      type: 'text',
-      rows: 4,
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+          styles: [{title: 'Normal', value: 'normal'}],
+          marks: {
+            decorators: [],
+            annotations: [
+              {
+                title: 'Link',
+                name: 'link',
+                type: 'object',
+                fields: [
+                  {
+                    title: 'URL',
+                    name: 'href',
+                    type: 'url',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
       description: 'General information or about text',
     },
     {

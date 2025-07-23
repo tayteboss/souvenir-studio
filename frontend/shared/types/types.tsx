@@ -48,7 +48,7 @@ export type HomePageType = {
   instagramHandle: string;
   instagramUrl: string;
   email: string;
-  informationSnippet: string;
-  moreInformation: string;
+  phone: string;
+  moreInformation: any[];
   images: ImageType[];
 };

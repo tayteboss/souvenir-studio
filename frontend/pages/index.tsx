@@ -8,6 +8,9 @@ import Projects from "../components/blocks/Projects";
 import Drawing from "../components/blocks/Drawing";
 import Menu from "../components/blocks/Menu";
 import Miffy from "../components/blocks/Miffy";
+import Gallery from "../components/blocks/Gallery";
+import Header from "../components/common/Header";
+import { useState } from "react";
 
 const PageWrapper = styled(motion.div)``;
 
@@ -25,10 +28,12 @@ const Page = (props: Props) => {
     instagramHandle,
     instagramUrl,
     email,
-    informationSnippet,
     moreInformation,
     images,
+    phone,
   } = data;
+
+  const [isInformationOpen, setIsInformationOpen] = useState(false);
 
   return (
     <PageWrapper
@@ -41,17 +46,17 @@ const Page = (props: Props) => {
         title={seoTitle || "Souvenir Studio"}
         description={seoDescription || ""}
       />
-      {/* <Menu
+      <Header
         title={title}
         instagramHandle={instagramHandle}
         instagramUrl={instagramUrl}
         email={email}
-        informationSnippet={informationSnippet}
+        phone={phone}
         moreInformation={moreInformation}
+        isInformationOpen={isInformationOpen}
+        setIsInformationOpen={setIsInformationOpen}
       />
-      <Drawing />
-      <Projects data={images} /> */}
-      <Miffy />
+      <Gallery images={images} isInformationOpen={isInformationOpen} />
     </PageWrapper>
   );
 };

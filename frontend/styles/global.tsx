@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
 	:root {
 		--colour-white: ${theme.colours.white};
 		--colour-black: ${theme.colours.black};
+		--colour-blue: ${theme.colours.blue};
 		--font-default: ${theme.fonts.default};
 		--transition-speed-default: ${theme.transitionSpeed.default};
 		--transition-speed-fast: ${theme.transitionSpeed.fast};
@@ -75,13 +76,14 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	a {
-		text-decoration: underline;
-		color: #808080;
+		text-decoration: none;
+		color: var(--colour-black);
 
 		transition: all var(--transition-speed-default) var(--transition-ease);
 
 		&:hover {
-			color: var(--colour-black);
+			color: var(--colour-blue);
+			text-decoration: underline;
 		}
 	}
 
@@ -102,9 +104,10 @@ export const GlobalStyles = createGlobalStyle`
 	a,
 	button,
 	div {
-		font-size: ${pxToRem(12)};
-		line-height: ${pxToRem(14)};
-		font-weight: bold;
+		font-size: ${pxToRem(16)};
+		line-height: ${pxToRem(18)};
+		font-family: var(--font-default);
+		font-weight: 500;
 	}
 
 	.cell {

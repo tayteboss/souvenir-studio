@@ -2,9 +2,10 @@ export const theme = {
   colours: {
     black: "#000",
     white: "#FFF",
+    blue: "#000DFF",
   },
   fonts: {
-    default: "helvetica",
+    default: "HaasGrotMedium",
   },
   mediaBreakpoints: {
     desktop: "(min-width: 1680px)",
@@ -18,8 +19,8 @@ export const theme = {
     innerWrapper: "1920px",
   },
   transitionSpeed: {
-    default: "200ms",
-    fast: "200ms",
+    default: "100ms",
+    fast: "100ms",
     extraFast: "100ms",
     slow: "500ms",
     extraSlow: "800ms",
