@@ -13,6 +13,7 @@ const HeaderWrapper = styled.header`
   padding: ${pxToRem(12)} ${pxToRem(16)};
   z-index: 100;
   order: 1;
+  mix-blend-mode: difference;
 `;
 
 const LogoWrapper = styled.div`
@@ -28,6 +29,7 @@ const InformationTrigger = styled.button`
   grid-column: 5 / -1;
   text-align: right;
   order: 3;
+  color: var(--colour-white);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -37,7 +39,7 @@ const InformationTrigger = styled.button`
   }
 
   &:hover {
-    color: var(--colour-blue);
+    text-decoration: underline;
   }
 `;
 

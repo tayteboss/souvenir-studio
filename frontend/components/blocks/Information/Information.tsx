@@ -17,7 +17,9 @@ const InformationWrapper = styled.div`
   }
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  color: var(--colour-white);
+`;
 
 const MoreInformationWrapper = styled(motion.div)``;
 
@@ -25,11 +27,14 @@ const MoreInformationInner = styled(motion.div)`
   padding-bottom: ${pxToRem(24)};
 
   a {
-    color: var(--colour-blue);
-
     &:hover {
       text-decoration: underline;
+      color: var(--colour-white);
     }
+  }
+
+  * {
+    color: var(--colour-white);
   }
 `;
 
@@ -38,6 +43,10 @@ const LinksWrapper = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: ${pxToRem(2)};
+
+  * {
+    color: var(--colour-white);
+  }
 `;
 
 const Spacer = styled.span``;

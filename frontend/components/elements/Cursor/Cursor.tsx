@@ -39,7 +39,7 @@ const CursorFloatingButton = styled(motion.div)<StyledProps>`
   pointer-events: none;
   border-radius: 2px;
   transform: translate(-50%, -50%);
-  background: var(--colour-black);
+  background: var(--colour-white);
   color: var(--colour-white);
   opacity: ${(props) => (props.$isActive ? "1" : "0")};
   white-space: nowrap;

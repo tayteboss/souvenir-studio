@@ -26,10 +26,10 @@ const TaglineCellWrapper = styled(motion.div)<TaglineCellWrapperProps>`
   }
 
   &:hover {
-    color: var(--colour-black);
+    color: var(--colour-white);
 
     a {
-      color: var(--colour-black);
+      color: var(--colour-white);
     }
   }
 `;

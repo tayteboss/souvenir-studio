@@ -2,7 +2,7 @@ export const theme = {
   colours: {
     black: "#000",
     white: "#FFF",
-    blue: "#FF0073",
+    blue: "#000",
   },
   fonts: {
     default: "HaasGrotMedium",

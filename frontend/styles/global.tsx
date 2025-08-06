@@ -40,6 +40,7 @@ export const GlobalStyles = createGlobalStyle`
 	html {
 		background: #EBEBEB;
 		font-size: 16px;
+		color: var(--colour-white);
 
 		&.no-scroll {
 			overflow-y: hidden;
@@ -62,8 +63,12 @@ export const GlobalStyles = createGlobalStyle`
 	body {
 		font-family: var(--font-default);
 		font-weight: bold;
-		color: var(--colour-black);
+		color: var(--colour-white);
 		line-height: normal;
+	}
+
+	header {
+		mix-blend-mode: difference;
 	}
 
 	strong,
@@ -77,12 +82,11 @@ export const GlobalStyles = createGlobalStyle`
 
 	a {
 		text-decoration: none;
-		color: var(--colour-black);
+		color: var(--colour-white);
 
 		transition: all var(--transition-speed-default) var(--transition-ease);
 
 		&:hover {
-			color: var(--colour-blue);
 			text-decoration: underline;
 		}
 	}

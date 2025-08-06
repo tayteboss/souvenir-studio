@@ -38,13 +38,13 @@ const LogoCellWrapper = styled(motion.div)<{ $isNearBottom: boolean }>`
   &:hover {
     button {
       color: ${(props) =>
-        props.$isNearBottom ? "var(--colour-white)" : "var(--colour-black)"};
+        props.$isNearBottom ? "var(--colour-white)" : "var(--colour-white)"};
     }
 
     svg {
       path {
         stroke: ${(props) =>
-          props.$isNearBottom ? "var(--colour-white)" : "var(--colour-black)"};
+          props.$isNearBottom ? "var(--colour-white)" : "var(--colour-white)"};
       }
     }
   }
@@ -57,7 +57,7 @@ const LogoCellWrapper = styled(motion.div)<{ $isNearBottom: boolean }>`
       color: ${(props) =>
         props.$isNearBottom
           ? "rgba(255, 255, 255, 0.5)"
-          : "var(--colour-black)"};
+          : "var(--colour-white)"};
     }
   }
 

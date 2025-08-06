@@ -17,7 +17,7 @@ const ProjectsWrapper = styled.div`
 `;
 
 const Inner = styled(motion.div)`
-  background: var(--colour-black);
+  background: var(--colour-white);
   display: flex;
   justify-content: center;
   align-items: center;

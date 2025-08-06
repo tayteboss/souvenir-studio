@@ -21,7 +21,7 @@ const InformationCellWrapper = styled(motion.div)<InformationCellWrapperProps>`
   pointer-events: ${(props) => (props.$hasScrolled ? "none" : "all")};
 
   &:hover {
-    color: var(--colour-black);
+    color: var(--colour-white);
   }
 `;
 
@@ -54,7 +54,7 @@ const DotsWrapper = styled.div`
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {
-    background: var(--colour-black);
+    background: var(--colour-white);
 
     svg {
       path {

@@ -25,7 +25,7 @@ const WorkTrigger = styled.button`
 
   &:hover {
     background: rgba(255, 255, 255, 0.9);
-    color: var(--colour-black);
+    color: var(--colour-white);
   }
 `;
 
@@ -40,7 +40,7 @@ const StoreTrigger = styled.button`
 
   &:hover {
     background: rgba(255, 255, 255, 0.9);
-    color: var(--colour-black);
+    color: var(--colour-white);
   }
 `;
 
