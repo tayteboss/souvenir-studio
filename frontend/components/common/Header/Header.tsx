@@ -20,8 +20,12 @@ const LogoWrapper = styled.div`
   grid-column: 1 / 2;
 
   svg {
-    width: ${pxToRem(136)};
+    width: ${pxToRem(165)};
     height: auto;
+
+    @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+      width: ${pxToRem(100)};
+    }
   }
 `;
 
