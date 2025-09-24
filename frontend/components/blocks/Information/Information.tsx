@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const InformationWrapper = styled.div`
   max-width: ${pxToRem(700)};
-  grid-column: 2 / 5;
+  grid-column: 4 / 9;
   order: 2;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
@@ -126,9 +126,11 @@ const Information = (props: Props) => {
         )}
       </AnimatePresence>
       <LinksWrapper>
-        {phone && <Link href={`tel:${phone}`}>{phone || ""}</Link>}
-        <Spacer>—</Spacer>
         {email && <Link href={`mailto:${email}`}>{email || ""}</Link>}
+        <Spacer>—</Spacer>
+        {instagramUrl && (
+          <Link href={instagramUrl}>@{instagramHandle || ""}</Link>
+        )}
       </LinksWrapper>
     </InformationWrapper>
   );

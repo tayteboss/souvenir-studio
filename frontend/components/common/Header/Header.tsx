@@ -17,7 +17,7 @@ const HeaderWrapper = styled.header`
 `;
 
 const LogoWrapper = styled.div`
-  grid-column: 1 / 2;
+  grid-column: 1 / 4;
 
   svg {
     width: ${pxToRem(165)};
@@ -30,7 +30,7 @@ const LogoWrapper = styled.div`
 `;
 
 const InformationTrigger = styled.button`
-  grid-column: 5 / -1;
+  grid-column: 9 / -1;
   text-align: right;
   order: 3;
   color: var(--colour-white);
@@ -38,7 +38,7 @@ const InformationTrigger = styled.button`
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    grid-column: 3 / -1;
+    grid-column: 4 / -1;
     order: 2;
   }
 

@@ -8,7 +8,7 @@ type Props = {
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(10, minmax(0, 1fr));
   grid-column-gap: ${pxToRem(16)};
   align-items: start;
 
