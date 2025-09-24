@@ -129,7 +129,9 @@ const Information = (props: Props) => {
         {email && <Link href={`mailto:${email}`}>{email || ""}</Link>}
         <Spacer>—</Spacer>
         {instagramUrl && (
-          <Link href={instagramUrl}>@{instagramHandle || ""}</Link>
+          <Link href={instagramUrl} target="_blank">
+            @{instagramHandle || ""}
+          </Link>
         )}
       </LinksWrapper>
     </InformationWrapper>
