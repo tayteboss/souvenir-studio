@@ -38,7 +38,7 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	html {
-		background: #EBEBEB;
+		background: var(--colour-white);
 		font-size: 16px;
 		color: var(--colour-white);
 

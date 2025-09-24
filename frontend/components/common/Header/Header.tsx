@@ -20,7 +20,7 @@ const LogoWrapper = styled.div`
   grid-column: 1 / 4;
 
   svg {
-    width: ${pxToRem(165)};
+    width: ${pxToRem(160)};
     height: auto;
 
     @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
