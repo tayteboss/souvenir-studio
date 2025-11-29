@@ -33,8 +33,6 @@ const Page = (props: Props) => {
     phone,
   } = data;
 
-  const [isInformationOpen, setIsInformationOpen] = useState(false);
-
   return (
     <PageWrapper
       variants={pageTransitionVariants}
@@ -53,10 +51,8 @@ const Page = (props: Props) => {
         email={email}
         phone={phone}
         moreInformation={moreInformation}
-        isInformationOpen={isInformationOpen}
-        setIsInformationOpen={setIsInformationOpen}
+        images={images}
       />
-      <Gallery images={images} isInformationOpen={isInformationOpen} />
     </PageWrapper>
   );
 };

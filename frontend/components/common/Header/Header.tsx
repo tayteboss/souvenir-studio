@@ -1,49 +1,33 @@
 import styled from "styled-components";
 import { HomePageType } from "../../../shared/types/types";
 import pxToRem from "../../../utils/pxToRem";
-import Logo from "../../svgs/Logo/Logo";
 import Information from "../../blocks/Information";
 import LayoutGrid from "../../layout/LayoutGrid";
+import Gallery from "../../blocks/Gallery";
 
 const HeaderWrapper = styled.header`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: ${pxToRem(12)} ${pxToRem(16)};
+  padding: ${pxToRem(16)};
   z-index: 100;
-  order: 1;
-  mix-blend-mode: difference;
-`;
 
-const LogoWrapper = styled.div`
-  grid-column: 1 / 4;
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    height: 100dvh;
+    padding: ${pxToRem(8)};
 
-  svg {
-    width: ${pxToRem(160)};
-    height: auto;
-
-    @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-      width: ${pxToRem(100)};
+    .layout-grid {
+      height: 100%;
     }
   }
 `;
 
-const InformationTrigger = styled.button`
-  grid-column: 9 / -1;
-  text-align: right;
-  order: 3;
-  color: var(--colour-white);
-
-  transition: all var(--transition-speed-default) var(--transition-ease);
+const LogoWrapper = styled.div`
+  grid-column: 1 / 3;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    grid-column: 4 / -1;
-    order: 2;
-  }
-
-  &:hover {
-    text-decoration: underline;
+    display: none;
   }
 `;
 
@@ -54,8 +38,7 @@ type Props = {
   email: HomePageType["email"];
   phone: HomePageType["phone"];
   moreInformation: HomePageType["moreInformation"];
-  isInformationOpen: boolean;
-  setIsInformationOpen: (isOpen: boolean) => void;
+  images: HomePageType["images"];
 };
 
 const Header = (props: Props) => {
@@ -66,18 +49,14 @@ const Header = (props: Props) => {
     email,
     phone,
     moreInformation,
-    isInformationOpen,
-    setIsInformationOpen,
+    images,
   } = props;
 
   return (
     <HeaderWrapper className="header">
       <LayoutGrid>
-        <LogoWrapper>
-          <Logo />
-        </LogoWrapper>
+        <LogoWrapper>Souvenir</LogoWrapper>
         <Information
-          isOpen={isInformationOpen}
           title={title}
           instagramHandle={instagramHandle}
           instagramUrl={instagramUrl}
@@ -85,11 +64,7 @@ const Header = (props: Props) => {
           phone={phone}
           moreInformation={moreInformation}
         />
-        <InformationTrigger
-          onClick={() => setIsInformationOpen(!isInformationOpen)}
-        >
-          {isInformationOpen ? "Close" : "Information"}
-        </InformationTrigger>
+        <Gallery images={images} />
       </LayoutGrid>
     </HeaderWrapper>
   );

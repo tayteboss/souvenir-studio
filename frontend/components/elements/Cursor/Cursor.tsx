@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useMousePosition } from "../../../hooks/useMousePosition";
-import pxToRem from "../../../utils/pxToRem";
+import Image from "next/image";
 
 type Props = {
   cursorRefresh: () => void;
@@ -17,8 +17,10 @@ type StyledProps = {
   $autoWidth?: boolean;
 };
 
+const cursorImages: string[] = ["/images/cursor-1.png", "/images/cursor-2.png"];
+
 const CursorWrapper = styled.div<StyledProps>`
-  z-index: 1000;
+  z-index: 1;
   position: fixed;
   display: ${(props) => (props.$isOnDevice ? "none" : "block")};
 
@@ -27,24 +29,18 @@ const CursorWrapper = styled.div<StyledProps>`
   }
 `;
 
-const CursorFloatingButton = styled(motion.div)<StyledProps>`
+const CursorFloatingButton = styled(motion.div)`
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: -12px;
-  left: 10px;
-  height: 13px;
-  width: 72px;
+  top: -12.5vw;
+  left: -12.5vw;
+  height: 25vw;
+  width: 25vw;
   pointer-events: none;
-  border-radius: 2px;
   transform: translate(-50%, -50%);
-  background: var(--colour-white);
-  color: var(--colour-white);
-  opacity: ${(props) => (props.$isActive ? "1" : "0")};
-  white-space: nowrap;
   transform-origin: center left;
-  font-size: 10px;
 
   transition:
     top 500ms ease,
@@ -55,29 +51,49 @@ const CursorFloatingButton = styled(motion.div)<StyledProps>`
 `;
 
 const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
-  const [isHoveringFloatingButton, setIsHoveringFloatingButton] =
-    useState(false);
-  const [cursorText, setCursorText] = useState("");
+  const [isHoveringLink, setIsHoveringLink] = useState(false);
   const [isOnDevice, setIsOnDevice] = useState(false);
   const [rotation, setRotation] = useState(0);
+  const [cursorImageIndex, setCursorImageIndex] = useState<number>(0);
+  const [cursorX, setCursorX] = useState<number>(0);
+  const [cursorY, setCursorY] = useState<number>(0);
+  const [hasInitialPosition, setHasInitialPosition] = useState<boolean>(false);
 
   const previousPosition = useRef({ x: 0, y: 0 });
   const isMoving = useRef(false);
   const rotationTimeout = useRef<NodeJS.Timeout | null>(null);
+  const lastMoveTime = useRef<number>(Date.now());
+  const resetDelay = 2000; // 0.2 seconds
 
   const router = useRouter();
   const position = useMousePosition();
 
-  let mouseXPosition = position.x;
-  let mouseYPosition = position.y;
+  // Set initial cursor position to the center of the viewport on client
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      setCursorX(centerX);
+      setCursorY(centerY);
+      setHasInitialPosition(true);
+    }
+  }, []);
+
+  // Update cursor position when mouse moves
+  useEffect(() => {
+    if (position.x !== null && position.y !== null) {
+      setCursorX(position.x);
+      setCursorY(position.y);
+    }
+  }, [position.x, position.y]);
 
   const ROTATION_SENSITIVITY = 0.2; // Adjust this value to control the tilt amount
   const RETURN_SPEED = 5; // Adjust this value to control how quickly it returns to level
   const STOP_DELAY = 500; // Adjust the delay (in milliseconds) before resetting rotation
 
   const calculateRotation = () => {
-    const deltaX = mouseXPosition - previousPosition.current.x;
-    const deltaY = mouseYPosition - previousPosition.current.y;
+    const deltaX = cursorX - previousPosition.current.x;
+    const deltaY = cursorY - previousPosition.current.y;
 
     // Check if there's any significant movement
     if (Math.abs(deltaX) > 0.1 || Math.abs(deltaY) > 0.1) {
@@ -88,10 +104,10 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
 
       if (deltaY < 0) {
         // Moving up, tilt right
-        targetRotation = deltaX * ROTATION_SENSITIVITY + 15;
+        targetRotation = deltaX * ROTATION_SENSITIVITY + 8;
       } else if (deltaY > 0) {
         // Moving down, tilt left
-        targetRotation = deltaX * ROTATION_SENSITIVITY - 15;
+        targetRotation = deltaX * ROTATION_SENSITIVITY - 8;
       } else {
         // No vertical movement, base rotation on horizontal movement
         targetRotation = deltaX * ROTATION_SENSITIVITY;
@@ -112,32 +128,32 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
       }, STOP_DELAY);
     }
 
-    previousPosition.current = { x: mouseXPosition, y: mouseYPosition };
+    previousPosition.current = { x: cursorX, y: cursorY };
   };
 
   const variantsWrapper = {
     visible: {
-      x: mouseXPosition,
-      y: mouseYPosition,
+      x: cursorX,
+      y: cursorY,
       rotate: rotation,
       transition: {
         type: "spring",
         mass: 0.01,
-        stiffness: 200,
-        damping: 10,
+        stiffness: 100,
+        damping: 5,
         overshootClamping: false,
         restDelta: 0.01,
         ease: "linear",
       },
     },
     hidden: {
-      x: mouseXPosition,
-      y: mouseYPosition,
+      x: cursorX,
+      y: cursorY,
       transition: {
         type: "spring",
         mass: 0.01,
-        stiffness: 200,
-        damping: 10,
+        stiffness: 100,
+        damping: 5,
         overshootClamping: false,
         restDelta: 0.01,
         ease: "linear",
@@ -146,35 +162,74 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
   };
 
   const clearCursor = () => {
+    setIsHoveringLink(false);
+    setRotation(0);
     setIsOnDevice(false);
   };
 
+  const imageVariants = {
+    initial: {
+      opacity: 0,
+      scale: 1.1,
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.05,
+        ease: "easeOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.9,
+      transition: {
+        duration: 0.05,
+        ease: "easeIn",
+      },
+    },
+  };
+
+  // Cycle cursor image on each click, looping through all available images
+  useEffect(() => {
+    const handleClick = () => {
+      setCursorImageIndex((prevIndex) => (prevIndex + 1) % cursorImages.length);
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("click", handleClick);
+      }
+    };
+  }, []);
+
   const findActions = () => {
     const aLinks = document.querySelectorAll("a");
-    const floatingButtons = document.querySelectorAll(
-      ".cursor-floating-button"
-    );
+    const cursorLinks = document.querySelectorAll(".cursor-link");
 
-    floatingButtons.forEach((button) => {
-      const buttonCursorTitle = button.getAttribute("data-cursor-title");
+    // cursorLinks.forEach((link) => {
+    //   link.addEventListener("mouseenter", () => {
+    //     setIsHoveringLink(true);
+    //   });
+    //   link.addEventListener("mouseleave", () => {
+    //     setIsHoveringLink(false);
+    //     setRotation(0); // Reset rotation on leave
+    //   });
+    // });
 
-      button.addEventListener("mouseenter", () => {
-        setIsHoveringFloatingButton(true);
-        if (buttonCursorTitle) {
-          setCursorText(buttonCursorTitle);
-        }
-      });
-      button.addEventListener("mouseleave", () => {
-        setIsHoveringFloatingButton(false);
-        setCursorText("");
-        setRotation(0); // Reset rotation on leave
-      });
-      button.addEventListener("mouseup", () => {
-        setIsHoveringFloatingButton(false);
-        setCursorText("");
-        setRotation(0); // Reset rotation on mouse up
-      });
-    });
+    // aLinks.forEach((link) => {
+    //   link.addEventListener("mouseenter", () => {
+    //     setIsHoveringLink(true);
+    //   });
+    //   link.addEventListener("mouseleave", () => {
+    //     setIsHoveringLink(false);
+    //     setRotation(0); // Reset rotation on leave
+    //   });
+    // });
 
     // checking if on a device
     const ua = navigator.userAgent;
@@ -204,7 +259,7 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
 
   useEffect(() => {
     calculateRotation();
-  }, [mouseXPosition, mouseYPosition]);
+  }, [cursorX, cursorY]);
 
   // reset cursor on page change
   useEffect(() => {
@@ -214,17 +269,35 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
 
   return (
     <>
-      <CursorWrapper $isOnDevice={isOnDevice} className="cursor-wrapper">
-        <CursorFloatingButton
-          $isActive={isHoveringFloatingButton}
-          $autoWidth={!!cursorText}
-          variants={variantsWrapper}
-          animate="visible"
-          layout
-        >
-          {cursorText || ""}
-        </CursorFloatingButton>
-      </CursorWrapper>
+      {hasInitialPosition && (
+        <CursorWrapper $isOnDevice={isOnDevice} className="cursor-wrapper">
+          <CursorFloatingButton
+            $isActive={isHoveringLink}
+            variants={variantsWrapper}
+            animate="visible"
+            layout
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={cursorImageIndex}
+                variants={imageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                style={{ position: "relative", width: "100%", height: "100%" }}
+              >
+                <Image
+                  src={cursorImages[cursorImageIndex]}
+                  alt="Cursor"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="25vw"
+                />
+              </motion.div>
+            </AnimatePresence>
+          </CursorFloatingButton>
+        </CursorWrapper>
+      )}
     </>
   );
 };

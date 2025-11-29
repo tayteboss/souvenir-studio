@@ -5,7 +5,7 @@ export const theme = {
     blue: "#000",
   },
   fonts: {
-    default: "Times New Roman",
+    default: "sans-serif",
   },
   mediaBreakpoints: {
     desktop: "(min-width: 1680px)",
@@ -19,7 +19,7 @@ export const theme = {
     innerWrapper: "1920px",
   },
   transitionSpeed: {
-    default: "100ms",
+    default: "200ms",
     fast: "100ms",
     extraFast: "100ms",
     slow: "500ms",

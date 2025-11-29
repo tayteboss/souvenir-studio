@@ -27,7 +27,7 @@ export const useMousePosition = (): ReturnMousePosition => {
 
   useEffect(() => {
     // Throttle the event handler
-    const throttledSetFromEvent = throttle(setFromEvent, 100); // Adjust throttle time if needed
+    const throttledSetFromEvent = throttle(setFromEvent, 25); // Adjust throttle time if needed
 
     // Add listener
     window.addEventListener("mousemove", throttledSetFromEvent);

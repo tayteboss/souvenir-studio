@@ -63,12 +63,8 @@ export const GlobalStyles = createGlobalStyle`
 	body {
 		font-family: var(--font-default);
 		font-weight: bold;
-		color: var(--colour-white);
+		color: var(--colour-black);
 		line-height: normal;
-	}
-
-	header {
-		mix-blend-mode: difference;
 	}
 
 	strong,
@@ -82,7 +78,7 @@ export const GlobalStyles = createGlobalStyle`
 
 	a {
 		text-decoration: none;
-		color: var(--colour-white);
+		color: var(--colour-black);
 
 		transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -108,10 +104,15 @@ export const GlobalStyles = createGlobalStyle`
 	a,
 	button,
 	div {
-		font-size: ${pxToRem(16)};
-		line-height: ${pxToRem(18)};
+		font-size: ${pxToRem(28)};
+		line-height: ${pxToRem(32)};
 		font-family: var(--font-default);
 		font-weight: 500;
+
+		@media ${theme.mediaBreakpoints.tabletPortrait} {
+			font-size: ${pxToRem(20)};
+			line-height: ${pxToRem(24)};
+		}
 	}
 
 	.cell {
