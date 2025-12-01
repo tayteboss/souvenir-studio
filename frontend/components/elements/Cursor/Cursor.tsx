@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMousePosition } from "../../../hooks/useMousePosition";
+import useViewportWidth from "../../../hooks/useViewportWidth";
+import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import Image from "next/image";
 
 type Props = {
@@ -17,16 +19,25 @@ type StyledProps = {
   $autoWidth?: boolean;
 };
 
-const cursorImages: string[] = ["/images/cursor-1.png", "/images/cursor-2.png"];
+const cursorImages: string[] = [
+  "/images/cursor-1.png",
+  "/images/cursor-2.png",
+  "/images/cursor-3.png",
+  "/images/cursor-4.png",
+  "/images/cursor-5.png",
+  "/images/cursor-6.png",
+  "/images/cursor-7.png",
+  "/images/cursor-8.png",
+  "/images/cursor-9.png",
+  "/images/cursor-10.png",
+  "/images/cursor-11.png",
+  "/images/cursor-12.png",
+  "/images/cursor-13.png",
+];
 
 const CursorWrapper = styled.div<StyledProps>`
-  z-index: 1;
+  z-index: 5000;
   position: fixed;
-  display: ${(props) => (props.$isOnDevice ? "none" : "block")};
-
-  @media ${(props) => props.theme.mediaBreakpoints.mobile} {
-    display: none;
-  }
 `;
 
 const CursorFloatingButton = styled(motion.div)`
@@ -41,6 +52,13 @@ const CursorFloatingButton = styled(motion.div)`
   pointer-events: none;
   transform: translate(-50%, -50%);
   transform-origin: center left;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    width: 50vw;
+    height: 50vw;
+    top: -25vw;
+    left: -25vw;
+  }
 
   transition:
     top 500ms ease,
@@ -64,9 +82,33 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
   const rotationTimeout = useRef<NodeJS.Timeout | null>(null);
   const lastMoveTime = useRef<number>(Date.now());
   const resetDelay = 2000; // 0.2 seconds
+  const breakpoint = useViewportWidth();
+  const { width, height } = useWindowDimensions();
+  const isTabletPortrait = breakpoint === "tabletPortrait";
+  const isMobile = breakpoint === "mobile";
+  const [hasDismissedTabletCursor, setHasDismissedTabletCursor] =
+    useState<boolean>(false);
+  const [hasDismissedMobileCursor, setHasDismissedMobileCursor] =
+    useState<boolean>(false);
+  const [isMobileScreensaverActive, setIsMobileScreensaverActive] =
+    useState<boolean>(false);
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const mobileInactivityTimeoutRef = useRef<number | null>(null);
 
   const router = useRouter();
   const position = useMousePosition();
+
+  // Persist dismissal state for tablet portrait so it never shows again in this session.
+  // Mobile cursor is NOT persisted so it can return later as a "screensaver".
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const storedTablet = window.sessionStorage.getItem("tabletCursorDismissed");
+    if (storedTablet === "true") {
+      setHasDismissedTabletCursor(true);
+    }
+  }, []);
 
   // Set initial cursor position to the center of the viewport on client
   useEffect(() => {
@@ -92,6 +134,11 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
   const STOP_DELAY = 500; // Adjust the delay (in milliseconds) before resetting rotation
 
   const calculateRotation = () => {
+    if (isTabletPortrait) {
+      // No rotation behaviour on tablet portrait – treat cursor as static loading image
+      return;
+    }
+
     const deltaX = cursorX - previousPosition.current.x;
     const deltaY = cursorY - previousPosition.current.y;
 
@@ -131,11 +178,34 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
     previousPosition.current = { x: cursorX, y: cursorY };
   };
 
+  // Helpers to manage mobile "screensaver" inactivity timer
+  const clearMobileInactivityTimeout = () => {
+    if (typeof window === "undefined") return;
+    if (mobileInactivityTimeoutRef.current !== null) {
+      window.clearTimeout(mobileInactivityTimeoutRef.current);
+      mobileInactivityTimeoutRef.current = null;
+    }
+  };
+
+  const startMobileInactivityTimeout = () => {
+    if (!isMobile) return;
+    if (typeof window === "undefined") return;
+
+    clearMobileInactivityTimeout();
+
+    mobileInactivityTimeoutRef.current = window.setTimeout(() => {
+      // After 15s of inactivity on mobile, bring back the looping cursor
+      // as a "screensaver" by marking it as not dismissed and active again.
+      setHasDismissedMobileCursor(false);
+      setIsMobileScreensaverActive(true);
+    }, 15000);
+  };
+
   const variantsWrapper = {
     visible: {
-      x: cursorX,
-      y: cursorY,
-      rotate: rotation,
+      x: isTabletPortrait ? centerX : cursorX,
+      y: isTabletPortrait ? centerY : cursorY,
+      rotate: isTabletPortrait ? 0 : rotation,
       transition: {
         type: "spring",
         mass: 0.01,
@@ -192,18 +262,69 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
 
   // Cycle cursor image on each click, looping through all available images
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleClick = () => {
-      setCursorImageIndex((prevIndex) => (prevIndex + 1) % cursorImages.length);
+      // On mobile:
+      // - First click hides the initial loading cursor and starts an inactivity timer.
+      // - After 15s of no clicks, the cursor returns as a "screensaver" and loops images.
+      // - Clicking again hides it and restarts the inactivity timer.
+      if (isMobile) {
+        if (!hasDismissedMobileCursor || isMobileScreensaverActive) {
+          setHasDismissedMobileCursor(true);
+          setIsMobileScreensaverActive(false);
+        }
+        startMobileInactivityTimeout();
+      } else if (isTabletPortrait) {
+        if (!hasDismissedTabletCursor) {
+          setHasDismissedTabletCursor(true);
+          try {
+            window.sessionStorage.setItem("tabletCursorDismissed", "true");
+          } catch {
+            // Ignore storage errors (e.g. disabled cookies)
+          }
+        }
+      } else {
+        // Desktop/other breakpoints retain existing behaviour – cycle cursor image on click
+        setCursorImageIndex(
+          (prevIndex) => (prevIndex + 1) % cursorImages.length
+        );
+      }
     };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("click", handleClick);
-    }
+    window.addEventListener("click", handleClick);
 
     return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("click", handleClick);
-      }
+      window.removeEventListener("click", handleClick);
+    };
+  }, [
+    isMobile,
+    isTabletPortrait,
+    hasDismissedMobileCursor,
+    hasDismissedTabletCursor,
+    isMobileScreensaverActive,
+  ]);
+
+  // On mobile breakpoint, automatically cycle through all cursor images
+  // while the cursor is visible (initial loading or screensaver).
+  useEffect(() => {
+    if (!isMobile) return;
+    if (hasDismissedMobileCursor) return;
+    if (typeof window === "undefined") return;
+
+    const intervalId = window.setInterval(() => {
+      setCursorImageIndex((prevIndex) => (prevIndex + 1) % cursorImages.length);
+    }, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isMobile, hasDismissedMobileCursor]);
+
+  // Clear any pending mobile inactivity timer on unmount
+  useEffect(() => {
+    return () => {
+      clearMobileInactivityTimeout();
     };
   }, []);
 
@@ -259,7 +380,7 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
 
   useEffect(() => {
     calculateRotation();
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, isTabletPortrait]);
 
   // reset cursor on page change
   useEffect(() => {
@@ -267,12 +388,20 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
     setRotation(0); // Reset rotation on page change
   }, [router.pathname, router.asPath, router.query.slug, cursorRefresh]);
 
+  const shouldShowCursor =
+    hasInitialPosition &&
+    // On non-mobile / non-tabletPortrait, still respect isOnDevice (hide cursor on touch devices)
+    ((!isMobile && !isTabletPortrait && !isOnDevice) ||
+      isMobile ||
+      isTabletPortrait) &&
+    (!isTabletPortrait || (isTabletPortrait && !hasDismissedTabletCursor)) &&
+    (!isMobile || (isMobile && !hasDismissedMobileCursor));
+
   return (
     <>
-      {hasInitialPosition && (
+      {shouldShowCursor && (
         <CursorWrapper $isOnDevice={isOnDevice} className="cursor-wrapper">
           <CursorFloatingButton
-            $isActive={isHoveringLink}
             variants={variantsWrapper}
             animate="visible"
             layout
