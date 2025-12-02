@@ -1,5 +1,7 @@
 @font-face {
-	font-family: 'HaasGrotMedium';
-	src: url('/fonts/HaasGrotDisp-65Medium.otf') format('opentype');
+	font-family: 'Karrik Regular';
+	src: url('/fonts/Karrik-Regular.woff2') format('woff2'),
+	     url('/fonts/Karrik-Regular.woff') format('woff'),
+	     url('/fonts/Karrik-Regular.ttf') format('truetype');
 	font-display: swap;
 }

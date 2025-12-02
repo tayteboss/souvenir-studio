@@ -5,7 +5,7 @@ export const theme = {
     blue: "#000",
   },
   fonts: {
-    default: "sans-serif",
+    default: "Karrik Regular",
   },
   mediaBreakpoints: {
     desktop: "(min-width: 1680px)",
